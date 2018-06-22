@@ -1,7 +1,7 @@
 require_relative "tile"
 
 class Board
-  attr_reader :grid
+  attr_accessor :grid, :rows
 
   def self.empty_grid
     Array.new(9) do
@@ -15,7 +15,7 @@ class Board
       nums = row.split("").map { |char| Integer(char) }
       nums.map { |num| Tile.new(num) }
     end
-
+  
     self.new(tiles)
   end
 
@@ -35,7 +35,7 @@ class Board
   end
 
   def columns
-    rows.transpose
+     rows.transpose
   end
 
   def render
@@ -50,12 +50,13 @@ class Board
     grid.size
   end
 
-  alias_method :rows, :size
+  # alias_method :rows, :size
 
   def solved?
     rows.all? { |row| solved_set?(row) } &&
       columns.all? { |col| solved_set?(col) } &&
       squares.all? { |square| solved_set?(square) }
+
   end
 
   def solved_set?(tiles)
